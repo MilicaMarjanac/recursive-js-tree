@@ -1,3 +1,4 @@
+//ne znam da li mi je dobar ovaj input TREE_DATA, je li ovo trebala biti neka flat lista?
 const TREE_DATA = [
     {
       name: 'Fruit',
@@ -26,6 +27,9 @@ const TREE_DATA = [
     },
   ];
 
+// ako je ok ova TREE_DATA onda treba da je izrenderujem u DOM-u??
+
+// ovo dole kao sto rekoh nije dobra logika inicijalno nisam ispravljala nakon sto sam ti pisala prije par h
 let treeList = document.getElementById("list");
 function printList(list) {
   list.forEach(element => {
