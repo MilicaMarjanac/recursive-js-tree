@@ -38,20 +38,21 @@ const TREE_DATA = {
     for (let i in obj.children) {
       listItem.appendChild(printList(obj.children[i]));
     }
+    listItem.addEventListener("click", toggle);
     return listItem;
   }
   treeList.appendChild(printList(TREE_DATA));
 
   printList(TREE_DATA);
 
-  document.addEventListener("click", toggle);
+  
 
   function toggle(event) {
-    if (event.target.nodeName !== "HTML") {
+  /*   if (event.target.nodeName !== "HTML") { */
       if (event.target.classList.value === "hide") {
         event.target.classList.remove("hide");
       } else {
         event.target.classList.add("hide");
       }
-    }
+    //}
   }
