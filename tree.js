@@ -37,9 +37,9 @@ const TREE_DATA = {
     wrapper.classList.add("wrap");
 
     let listItem = document.createElement("li");
-    let ItemIcon = document.createElement("div");
+    let itemIcon = document.createElement("div");
 
-    wrapper.appendChild(ItemIcon);
+    wrapper.appendChild(itemIcon);
     wrapper.appendChild(listItem);
 
     listItem.innerHTML = obj.name;
@@ -47,12 +47,12 @@ const TREE_DATA = {
 
     for (let i in obj.children) {
       if (obj.children) {
-        ItemIcon.classList.add("icon2");
+        itemIcon.classList.add("icon2");
       }
       listItem.appendChild(printList(obj.children[i]));
     }
 
-    ItemIcon.addEventListener("click", toggle);
+    itemIcon.addEventListener("click", toggle);
     return wrapper;
   }
   
@@ -69,3 +69,28 @@ const TREE_DATA = {
       event.target.classList.add("icon1");
     }
   }
+
+let liList = treeList.getElementsByTagName("li");
+
+
+//ovo radi ali ima bug, ako trazis npr "Vegetables", izlista Vegetables ali ne i njihovu djecu
+function search() { 
+  let input = document.getElementById("searchBox");
+  let entry = input.value.toUpperCase();
+  
+  for (i = 0; i < liList.length; i++) {
+    let text = liList[i].innerHTML;
+
+    if (text.toUpperCase().indexOf(entry) > -1) {
+      liList[i].style.display = "";
+      liList[i].previousSibling.style.display = "";
+    } else {
+      liList[i].style.display = "none";
+      liList[i].previousSibling.style.display = "none";
+    }
+  }
+}
+
+/* pa sam pokusavala da napravim funkciju buildTree(TREE_DATA, entry) iz koje bih na osnovu entry-ja 
+filtrirala trazeni objekat(ukljucujuci i djecu) 
+i pozvala je iz search funkcije da ponovo izgenerise drvo, ali ne uspijevam */
