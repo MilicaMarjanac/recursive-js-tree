@@ -59,6 +59,17 @@ const TREE_DATA = {
   treeList.appendChild(printList(TREE_DATA));
   printList(TREE_DATA);
 
+  
+  function iterate(list) {
+    for (let child of list.children) {
+    
+      console.log(child.children[1])
+      iterate(child.children[1])
+      
+    }
+  }
+  iterate(treeList);
+  
   function toggle(event) {
     if (event.target.nextElementSibling.classList.value === "hide") {
       event.target.nextElementSibling.classList.remove("hide");
@@ -71,6 +82,7 @@ const TREE_DATA = {
   }
 
 let liList = treeList.getElementsByTagName("li");
+
 
 
 //ovo radi ali ima bug, ako trazis npr "Vegetables", izlista Vegetables ali ne i njihovu djecu
