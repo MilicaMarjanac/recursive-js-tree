@@ -60,16 +60,17 @@ const TREE_DATA = {
   printList(TREE_DATA);
 
   
-  function iterate(list) {
+/*   function iterate(list,forceshow) {
     for (let child of list.children) {
-    
+    //if (child==="Green" or forceshow==true )
+    //if (child.children)
       console.log(child.children[1])
-      iterate(child.children[1])
+      iterate(child.children[1],true)
       
     }
   }
   iterate(treeList);
-  
+   */
   function toggle(event) {
     if (event.target.nextElementSibling.classList.value === "hide") {
       event.target.nextElementSibling.classList.remove("hide");
@@ -81,28 +82,31 @@ const TREE_DATA = {
     }
   }
 
-let liList = treeList.getElementsByTagName("li");
+//let liList = treeList.getElementsByTagName("li");
 
-
-
-//ovo radi ali ima bug, ako trazis npr "Vegetables", izlista Vegetables ali ne i njihovu djecu
 function search() { 
   let input = document.getElementById("searchBox");
   let entry = input.value.toUpperCase();
-  
-  for (i = 0; i < liList.length; i++) {
-    let text = liList[i].innerHTML;
+  iterate(treeList, entry/* , forceShow */);
+}
 
-    if (text.toUpperCase().indexOf(entry) > -1) {
-      liList[i].style.display = "";
-      liList[i].previousSibling.style.display = "";
+function iterate(obj, entry, forceshow) {
+  for (let child of obj.children) {
+    if (
+      child.children[1].innerText.toUpperCase().indexOf(entry) > -1 ||
+      forceshow === true
+    ) {
+      if (child.children[1].child) {
+        iterate(child.children[1], entry, true);
+        child.style.display = "";
+      } else {
+        iterate(child.children[1], entry, false);
+      }
     } else {
-      liList[i].style.display = "none";
-      liList[i].previousSibling.style.display = "none";
+      console.log(forceshow);
+      child.style.display = "none";
     }
   }
 }
 
-/* pa sam pokusavala da napravim funkciju buildTree(TREE_DATA, entry) iz koje bih na osnovu entry-ja 
-filtrirala trazeni objekat(ukljucujuci i djecu) 
-i pozvala je iz search funkcije da ponovo izgenerise drvo, ali ne uspijevam */
+
