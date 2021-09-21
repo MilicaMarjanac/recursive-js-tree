@@ -84,29 +84,24 @@ const TREE_DATA = {
 
 //let liList = treeList.getElementsByTagName("li");
 
+
 function search() { 
   let input = document.getElementById("searchBox");
   let entry = input.value.toUpperCase();
-  iterate(treeList, entry/* , forceShow */);
+  iterate(treeList, entry /* ,forceShow */  );
 }
 
-function iterate(obj, entry, forceshow) {
+function iterate(obj, entry, forceShow) {
   for (let child of obj.children) {
     if (
-      child.children[1].innerText.toUpperCase().indexOf(entry) > -1 ||
-      forceshow === true
-    ) {
-      if (child.children[1].child) {
-        iterate(child.children[1], entry, true);
-        child.style.display = "";
-      } else {
-        iterate(child.children[1], entry, false);
-      }
-    } else {
-      console.log(forceshow);
-      child.style.display = "none";
+      child.children[1].innerText.toUpperCase().indexOf(entry) > -1
+      || forceShow === true) {
+      console.log(child)
+      iterate(child.children[1], entry, true);
     }
+   /*  else {
+      console.log(child)
+      iterate(child.children[1], entry);
+    }*/
   }
-}
-
-
+} 
