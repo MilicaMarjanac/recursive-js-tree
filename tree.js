@@ -60,7 +60,7 @@ const TREE_DATA = {
   printList(TREE_DATA);
 
 
-  
+
   function toggle(event) {
     if (event.target.nextElementSibling.classList.value === "hide") {
       event.target.nextElementSibling.classList.remove("hide");
@@ -81,34 +81,34 @@ function search() {
   iterate(treeList, entry /* ,forceShow */  );
 }
 
-
-
-//ne radi ovo al cisto da vidis kako sam razmisljala
 function iterate(obj, entry, forceshow) {
+  let isAnyChildMatching=false
+
   for (let child of obj.children) {
       console.log('A', child)
       if (
-          child.children[1].innerText.toUpperCase().indexOf(entry) > -1 || forceshow === true) {
+          child.children[1].childNodes[0].textContent.toUpperCase().indexOf(entry) > -1 
+          || forceshow === true) {
+          isAnyChildMatching=true
           console.log('B', child)
-          lastChild = child.children[1].children
-          for (let c of lastChild) {
-              //console.log('lastchild',c.children[1].children.length)
-              last = c.children[1].children.length
-              if (last == 0) {
-                  console.log('C', child)
-                  iterate(child.children[1], entry, true)
-              }
-          }
-          iterate(child.children[1], entry)
+          iterate(child.children[1], entry, true)
       } else {
-          if (child.children[1].children.length == 0) {
-              console.log('Ca', child)
-              child.style.display = ' '
-          }
-          else {
-              child.style.display = 'none'
+          
+             child.style.display = 'none'
               console.log('E', child)
-          }
+          
+         let childrenMatched=iterate(child.children[1], entry)
+         if (childrenMatched==true){
+          isAnyChildMatching=true
+         }
       }
   }
+  
+if(isAnyChildMatching===true){
+  //debugger
+  obj.style.display=" "
+  obj.parentNode.style.display='flex'
+
+}
+return isAnyChildMatching
 }
