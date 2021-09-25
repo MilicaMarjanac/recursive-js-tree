@@ -1,11 +1,9 @@
 ul {
     list-style: none;
   }
-  
   .wrap {
     display: flex;
   }
-  
   .hide li {
     display: none;
   }
