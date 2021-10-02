@@ -21,7 +21,7 @@ const TREE_DATA = {
   ]
 };
 
-let treeList = document.getElementById("list");
+//let treeList = document.getElementById("list");
 
 function printList(obj) {
   let wrapper = document.createElement("div");
@@ -46,8 +46,19 @@ function printList(obj) {
   return wrapper;
 }
 
-treeList.appendChild(printList(TREE_DATA));
-printList(TREE_DATA);
+function createTree() {
+  let treeList = document.createElement("ul");
+  let tree = printList(TREE_DATA);
+  treeList.appendChild(tree);
+  let container = document.createElement("div");
+  container.appendChild(treeList);
+  document.body.appendChild(container);
+  return treeList;
+}
+
+let treeData = createTree();
+/* nisam sigurna jesam li te dobro skontala, je li poenta bila da ne pravim nijednu globalnu varijablu 
+ili samo ono ul da ne bude globalno/u html-u? */
 
 function toggle(event) {
   if (event.target.nextElementSibling.classList.value === "hide") {
@@ -63,18 +74,19 @@ function toggle(event) {
 function search() {
   let input = document.getElementById("searchBox");
   let entry = input.value.toUpperCase();
-  iterate(treeList, entry);
+  iterate(treeData, entry);
 }
 
 function iterate(obj, entry, forceShow) {
   let isAnyChildMatching = false;
   for (let child of obj.children) {
-     if (
-      child.children[1].childNodes[0].textContent.toUpperCase().indexOf(entry) > -1 
-      || forceShow === true
+    if (
+      child.children[1].childNodes[0].textContent.toUpperCase().indexOf(entry) >
+        -1 ||
+      forceShow === true
     ) {
       isAnyChildMatching = true;
-      if (isAnyChildMatching === true){
+      if (isAnyChildMatching === true) {
         child.style.display = "flex";
       }
       iterate(child.children[1], entry, true);
@@ -87,7 +99,7 @@ function iterate(obj, entry, forceShow) {
     }
   }
   if (isAnyChildMatching === true) {
-        obj.parentNode.style.display = "flex";       
+    obj.parentNode.style.display = "flex";
   }
   return isAnyChildMatching;
 }
