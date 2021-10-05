@@ -87,8 +87,6 @@ function iterate(obj, entry, forceShow) {
       isAnyChildMatching = true;
       if (isAnyChildMatching === true) {
         child.style.display = "flex";
-        obj.classList.remove("hide")
-       
       }
       iterate(child.children[1], entry, true);
     } else {
@@ -101,6 +99,13 @@ function iterate(obj, entry, forceShow) {
   }
   if (isAnyChildMatching === true) {
     obj.parentNode.style.display = "flex";
+    obj.classList.remove("hide");
+    if (obj.previousSibling != null) {
+      if (obj.previousSibling.classList.contains("icon1")) {
+        obj.previousSibling.classList.remove("icon1");
+        obj.previousSibling.classList.add("icon2");
+      }
+    }
   }
   return isAnyChildMatching;
 }
