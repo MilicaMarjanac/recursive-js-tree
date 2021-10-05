@@ -46,9 +46,9 @@ function printList(obj) {
   return wrapper;
 }
 
-function createTree() {
+function createTree(data) {
   let treeList = document.createElement("ul");
-  let tree = printList(TREE_DATA);
+  let tree = printList(data);
   treeList.appendChild(tree);
   let container = document.createElement("div");
   container.appendChild(treeList);
@@ -56,9 +56,8 @@ function createTree() {
   return treeList;
 }
 
-let treeData = createTree();
-/* nisam sigurna jesam li te dobro skontala, je li poenta bila da ne pravim nijednu globalnu varijablu 
-ili samo ono ul da ne bude globalno/u html-u? */
+let treeData = createTree(TREE_DATA);
+
 
 function toggle(event) {
   if (event.target.nextElementSibling.classList.value === "hide") {
@@ -88,6 +87,8 @@ function iterate(obj, entry, forceShow) {
       isAnyChildMatching = true;
       if (isAnyChildMatching === true) {
         child.style.display = "flex";
+        obj.classList.remove("hide")
+       
       }
       iterate(child.children[1], entry, true);
     } else {
