@@ -21,8 +21,6 @@ const TREE_DATA = {
   ]
 };
 
-//let treeList = document.getElementById("list");
-
 function printList(obj) {
   let wrapper = document.createElement("div");
   wrapper.classList.add("wrap");
@@ -50,14 +48,59 @@ function createTree(data) {
   let treeList = document.createElement("ul");
   let tree = printList(data);
   treeList.appendChild(tree);
+
+  let expandBtn = document.createElement("button");
+  expandBtn.innerHTML = "Expand All";
+  expandBtn.addEventListener("click", expand);
+
+  let collapseBtn = document.createElement("button");
+  collapseBtn.innerHTML = "Collapse All";
+  collapseBtn.addEventListener("click", collapse);
+
+  let buttons = document.createElement("div");
+  buttons.append(expandBtn, collapseBtn);
+
+  let treeListcontainer = document.createElement("div");
+  treeListcontainer.appendChild(treeList);
+  
   let container = document.createElement("div");
-  container.appendChild(treeList);
+  container.append(buttons, treeListcontainer);
   document.body.appendChild(container);
   return treeList;
 }
 
 let treeData = createTree(TREE_DATA);
 
+function expand() {
+  expandIterator(treeData);
+}
+
+function expandIterator(data) {
+  for (let child of data.children) {
+    if (child.children[1].classList.contains("hide")) {
+      child.children[1].classList.remove("hide");
+      toggleIcon(child.children[1]);
+    }
+    expandIterator(child.children[1]);
+  }
+}
+
+function collapse() {
+  collapseIterator(treeData);
+}
+
+function collapseIterator(data) {
+  for (let child of data.children) {
+    child.children[1].classList.add("hide");
+    if (child.children[1].previousSibling != null) {
+      if (child.children[1].previousSibling.classList.contains("icon2")) {
+        child.children[1].previousSibling.classList.remove("icon2");
+        child.children[1].previousSibling.classList.add("icon1");
+      }
+    }
+    collapseIterator(child.children[1]);
+  }
+}
 
 function toggle(event) {
   if (event.target.nextElementSibling.classList.value === "hide") {
@@ -100,12 +143,16 @@ function iterate(obj, entry, forceShow) {
   if (isAnyChildMatching === true) {
     obj.parentNode.style.display = "flex";
     obj.classList.remove("hide");
-    if (obj.previousSibling != null) {
-      if (obj.previousSibling.classList.contains("icon1")) {
-        obj.previousSibling.classList.remove("icon1");
-        obj.previousSibling.classList.add("icon2");
-      }
-    }
+    toggleIcon(obj);
   }
   return isAnyChildMatching;
+}
+
+function toggleIcon(item) {
+  if (item.previousSibling != null) {
+    if (item.previousSibling.classList.contains("icon1")) {
+      item.previousSibling.classList.remove("icon1");
+      item.previousSibling.classList.add("icon2");
+    }
+  }
 }
