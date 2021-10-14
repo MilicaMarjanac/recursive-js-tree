@@ -116,7 +116,46 @@ function toggle(event) {
 function search() {
   let input = document.getElementById("searchBox");
   let entry = input.value.toUpperCase();
+  let array = makeFlatArray()
+  startAutocomplete(input, array)
+  entry = startAutocomplete(input, array)
+
   iterate(treeData, entry);
+}
+
+function makeFlatArray() {
+  let flatArray = [];
+  function flatten(data) {
+    for (let child of data.children) {
+      flatArray.push(child.children[1].childNodes[0].textContent);
+      flatten(child.children[1]);
+    }
+    return flatArray;
+  }
+  let arr = flatten(treeData);
+  return arr;
+}
+
+function startAutocomplete(inputField, array) {
+  removeRedundant();
+  let selectContainer = document.createElement("select");
+  inputField.parentNode.appendChild(selectContainer);
+  let value = inputField.value;
+  for (let item of array) {
+    if (item.toUpperCase().indexOf(value.toUpperCase()) > -1) {
+      let optContainer = document.createElement("option");
+      optContainer.innerHTML = item;
+      selectContainer.appendChild(optContainer);
+    }
+  }
+  return inputField.value.toUpperCase();
+}
+
+function removeRedundant() {
+  var list = document.getElementsByTagName("select");
+  for (var i = 0; i < list.length; i++) {
+    list[i].parentNode.removeChild(list[i]);
+  }
 }
 
 function iterate(obj, entry, forceShow) {
