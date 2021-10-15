@@ -171,10 +171,18 @@ function startAutocomplete(inputField, data) {
   inputField.parentNode.appendChild(selectContainer);
   let value = inputField.value;
   removeRedundant();
-  let optionsList = []
-  iterateSelection(data, value, optionsList)
+  let optionsList = [];
+  iterateSelection(data, value, optionsList);
   for (let option of optionsList) {
-      selectContainer.append(option)
+    selectContainer.append(option);
+  }
+  selectContainer.addEventListener("change", () => {
+    //inputField.value = this.value;
+    inputField.value = selectContainer.value;
+    iterate(treeData, inputField.value.toUpperCase());
+  });
+  if (inputField.value == "") {
+    selectContainer.value = "";
   }
   return inputField.value.toUpperCase();
 }
@@ -191,10 +199,10 @@ function iterateSelection(data, value, list) {
 }
 
 function removeRedundant() {
-var list = document.getElementsByTagName("select");
-for (var i = 0; i < list.length - 1; i++) {
-  list[i].parentNode.removeChild(list[i]);
-}
+  var list = document.getElementsByTagName("select");
+  for (var i = 0; i < list.length - 1; i++) {
+    list[i].parentNode.removeChild(list[i]);
+  }
 }
 
 function iterate(obj, entry, forceShow) {
