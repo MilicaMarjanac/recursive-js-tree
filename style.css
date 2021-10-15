@@ -29,4 +29,13 @@ ul {
     background-size: 10px 10px;
     display: block;
   }
-  
+  .buttons{
+    margin:10px 35px;
+  }
+
+  #main {
+    margin:10px 35px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+  }

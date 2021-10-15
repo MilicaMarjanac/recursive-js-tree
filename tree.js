@@ -58,6 +58,7 @@ function createTree(data) {
   collapseBtn.addEventListener("click", collapse);
 
   let buttons = document.createElement("div");
+   buttons.setAttribute("class", "buttons");
   buttons.append(expandBtn, collapseBtn);
 
   let treeListcontainer = document.createElement("div");
@@ -167,30 +168,39 @@ function search() {
 }
 
 function startAutocomplete(inputField, data) {
-  let selectContainer = document.createElement("select");
+  let selectContainer = document.createElement("div");
+  selectContainer.setAttribute("class", "autocomplete");
   inputField.parentNode.appendChild(selectContainer);
   let value = inputField.value;
   removeRedundant();
   let optionsList = [];
   iterateSelection(data, value, optionsList);
   for (let option of optionsList) {
-    selectContainer.append(option);
+      option.innerHTML += "<input type='hidden' value='" + option.innerHTML + "'>";
+      option.addEventListener("click", function (e) {
+          inputField.value = this.getElementsByTagName("input")[0].value
+          hideList()
+          iterate(treeData, inputField.value.toUpperCase());
+         
+      })
+      selectContainer.append(option);
   }
-  selectContainer.addEventListener("change", () => {
-    //inputField.value = this.value;
-    inputField.value = selectContainer.value;
-    iterate(treeData, inputField.value.toUpperCase());
-  });
   if (inputField.value == "") {
-    selectContainer.value = "";
-  }
+      selectContainer.value = "";
+      hideList()
+    }
   return inputField.value.toUpperCase();
 }
-
+function hideList(){
+  var items = document.getElementsByClassName("autocomplete");
+  for(let child of items[0].children){
+          child.style.display='none'
+  }
+}
 function iterateSelection(data, value, list) {
   for (let child of data.children) {
       if (child.children[1].childNodes[0].textContent.toUpperCase().indexOf(value.toUpperCase()) > -1) {
-          let optContainer = document.createElement("option");
+          let optContainer = document.createElement("div");
           optContainer.innerHTML = child.children[1].childNodes[0].textContent;
           list.push(optContainer)
       }
@@ -199,9 +209,9 @@ function iterateSelection(data, value, list) {
 }
 
 function removeRedundant() {
-  var list = document.getElementsByTagName("select");
+  var list = document.getElementsByClassName("autocomplete");
   for (var i = 0; i < list.length - 1; i++) {
-    list[i].parentNode.removeChild(list[i]);
+      list[i].parentNode.removeChild(list[i]);
   }
 }
 
