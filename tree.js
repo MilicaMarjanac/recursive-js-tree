@@ -112,14 +112,13 @@ function toggle(event) {
     event.target.classList.add("icon1");
   }
 }
-
+// with object flattening
+/*
 function search() {
   let input = document.getElementById("searchBox");
   let entry = input.value.toUpperCase();
   let array = makeFlatArray()
-  startAutocomplete(input, array)
   entry = startAutocomplete(input, array)
-
   iterate(treeData, entry);
 }
 
@@ -156,6 +155,46 @@ function removeRedundant() {
   for (var i = 0; i < list.length; i++) {
     list[i].parentNode.removeChild(list[i]);
   }
+}
+*/
+
+// alternative with original object 
+function search() {
+  let input = document.getElementById("searchBox");
+  let entry = input.value.toUpperCase();
+  entry = startAutocomplete(input, treeData)
+  iterate(treeData, entry);
+}
+
+function startAutocomplete(inputField, data) {
+  let selectContainer = document.createElement("select");
+  inputField.parentNode.appendChild(selectContainer);
+  let value = inputField.value;
+  removeRedundant();
+  let optionsList = []
+  iterateSelection(data, value, optionsList)
+  for (let option of optionsList) {
+      selectContainer.append(option)
+  }
+  return inputField.value.toUpperCase();
+}
+
+function iterateSelection(data, value, list) {
+  for (let child of data.children) {
+      if (child.children[1].childNodes[0].textContent.toUpperCase().indexOf(value.toUpperCase()) > -1) {
+          let optContainer = document.createElement("option");
+          optContainer.innerHTML = child.children[1].childNodes[0].textContent;
+          list.push(optContainer)
+      }
+      iterateSelection(child.children[1], value, list)
+  }
+}
+
+function removeRedundant() {
+var list = document.getElementsByTagName("select");
+for (var i = 0; i < list.length - 1; i++) {
+  list[i].parentNode.removeChild(list[i]);
+}
 }
 
 function iterate(obj, entry, forceShow) {
