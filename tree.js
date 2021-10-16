@@ -181,7 +181,6 @@ function startAutocomplete(inputField, data) {
           inputField.value = this.getElementsByTagName("input")[0].value
           hideList()
           iterate(treeData, inputField.value.toUpperCase());
-         
       })
       selectContainer.append(option);
   }
@@ -189,6 +188,9 @@ function startAutocomplete(inputField, data) {
       selectContainer.value = "";
       hideList()
     }
+    document.addEventListener("click", function (e) {
+      removeNotTargeted(e.target)
+        });
   return inputField.value.toUpperCase();
 }
 function hideList(){
@@ -197,6 +199,17 @@ function hideList(){
           child.style.display='none'
   }
 }
+
+function removeNotTargeted(target) {
+  let list = document.getElementsByClassName("autocomplete");
+  let inp = document.getElementById("searchBox");
+  for (var i = 0; i < list.length; i++) {
+    if (list[i] != target.parentNode && inp != target) {
+      hideList();
+    }
+  }
+}
+
 function iterateSelection(data, value, list) {
   for (let child of data.children) {
       if (child.children[1].childNodes[0].textContent.toUpperCase().indexOf(value.toUpperCase()) > -1) {

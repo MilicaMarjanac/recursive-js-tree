@@ -39,3 +39,10 @@ ul {
     display: flex;
     flex-direction: column;
   }
+  .autocomplete div{
+    padding: 2px;
+    cursor: pointer;
+    border-bottom: 1px solid #d4d4d4; 
+    border-left: 1px solid #d4d4d4; 
+    border-right: 1px solid #d4d4d4; 
+  }
