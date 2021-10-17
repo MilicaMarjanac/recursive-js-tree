@@ -170,6 +170,7 @@ function search() {
 function startAutocomplete(inputField, data) {
   let selectContainer = document.createElement("div");
   selectContainer.setAttribute("class", "autocomplete");
+  selectContainer.setAttribute("id", "autocomplete");
   inputField.parentNode.appendChild(selectContainer);
   let value = inputField.value;
   removeRedundant();
@@ -225,6 +226,43 @@ function removeRedundant() {
   var list = document.getElementsByClassName("autocomplete");
   for (var i = 0; i < list.length - 1; i++) {
       list[i].parentNode.removeChild(list[i]);
+  }
+}
+
+let currentFocus = -1;
+
+let globalInput = document.getElementById('searchBox')
+globalInput.addEventListener("keydown", function (e) {
+    var x = document.getElementById("autocomplete");
+    if (x) x = x.getElementsByTagName("div");
+    if (e.keyCode == 40) {
+        currentFocus++;
+        addActive(x);
+    } else if (e.keyCode == 38) {
+        currentFocus--;
+        addActive(x);
+    } else if (e.keyCode == 13) {
+        e.preventDefault();
+        if (currentFocus > -1) {
+            if (x) x[currentFocus].click();
+        }
+    }
+})   
+
+function addActive(x) {
+    if (!x) return false;
+    //  removeActive(x);
+    if (currentFocus >= x.length) {
+        currentFocus = 0
+    }
+    if (currentFocus < 0) {
+        currentFocus = (x.length - 1)
+    }
+    x[currentFocus].classList.add("autocomplete-active");
+}
+function removeActive(x) {
+      for (var i = 0; i < x.length; i++) {
+    x[i].classList.remove("autocomplete-active");
   }
 }
 
