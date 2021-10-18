@@ -113,53 +113,7 @@ function toggle(event) {
     event.target.classList.add("icon1");
   }
 }
-// with object flattening
-/*
-function search() {
-  let input = document.getElementById("searchBox");
-  let entry = input.value.toUpperCase();
-  let array = makeFlatArray()
-  entry = startAutocomplete(input, array)
-  iterate(treeData, entry);
-}
 
-function makeFlatArray() {
-  let flatArray = [];
-  function flatten(data) {
-    for (let child of data.children) {
-      flatArray.push(child.children[1].childNodes[0].textContent);
-      flatten(child.children[1]);
-    }
-    return flatArray;
-  }
-  let arr = flatten(treeData);
-  return arr;
-}
-
-function startAutocomplete(inputField, array) {
-  removeRedundant();
-  let selectContainer = document.createElement("select");
-  inputField.parentNode.appendChild(selectContainer);
-  let value = inputField.value;
-  for (let item of array) {
-    if (item.toUpperCase().indexOf(value.toUpperCase()) > -1) {
-      let optContainer = document.createElement("option");
-      optContainer.innerHTML = item;
-      selectContainer.appendChild(optContainer);
-    }
-  }
-  return inputField.value.toUpperCase();
-}
-
-function removeRedundant() {
-  var list = document.getElementsByTagName("select");
-  for (var i = 0; i < list.length; i++) {
-    list[i].parentNode.removeChild(list[i]);
-  }
-}
-*/
-
-// alternative with original object 
 function search() {
   let input = document.getElementById("searchBox");
   let entry = input.value.toUpperCase();
@@ -194,6 +148,7 @@ function startAutocomplete(inputField, data) {
         });
   return inputField.value.toUpperCase();
 }
+
 function hideList(){
   var items = document.getElementsByClassName("autocomplete");
   for(let child of items[0].children){
@@ -251,7 +206,7 @@ globalInput.addEventListener("keydown", function (e) {
 
 function addActive(x) {
     if (!x) return false;
-    //  removeActive(x);
+    //  removeActive(x); wtf
     if (currentFocus >= x.length) {
         currentFocus = 0
     }
@@ -260,6 +215,7 @@ function addActive(x) {
     }
     x[currentFocus].classList.add("autocomplete-active");
 }
+
 function removeActive(x) {
       for (var i = 0; i < x.length; i++) {
     x[i].classList.remove("autocomplete-active");
